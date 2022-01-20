@@ -1,4 +1,42 @@
 
 Part 1
 / Create an inventory - DONE 
-/ Create lookupInventory function 
+/ Create lookupInventory function - DONE
+
+Part 2 
+/ Create a lookupInventoryPrices function - DONE 
+
+Part 3
+/ Create an id for each item - DONE 
+
+Part 4 
+/ Create a "Select Item" status - Done 
+
+Part 5 
+/ Create an orderItem + basket function that receives id  - Done 
+/ add a "Item not Found" variable - DONE 
+
+Part 6 
+/ add a sum of basket function + payment message - DONE 
+
+Part 7 
+/ add a confirm your order + coins method of payment - DONE 
+/ add a cancel order which deletes basket - DONE 
+/ add a only accept coins if order is confirmed option - DONE 
+
+Part 8 
+/ add and if money added does not match money due, add a promt 
+/ add money back if money put in machine is more then money due 
+
+
+extra  = same item ?
+
+
+
+
+
+
+
+
+To add:
+/ add an If statement the vending machine status is "Select Item"
