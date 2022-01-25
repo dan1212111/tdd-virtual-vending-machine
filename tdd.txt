@@ -34,18 +34,5 @@ Part 9
 
 Part 10
 / Being able to provide vending machine with change - DONE
-/ If coinCounter is below £10 - stop accepting orders 
-/ Being able to add the change into the coinCounter
-
-
-extra  = same item ?
-
-
-
-
-
-
-
-
-To add:
-/ add an If statement the vending machine status is "Select Item"
+/ Being able to add the change into the coinCounter - DONE 
+/ If coinCounter is below £10 - stop accepting orders - DONE 

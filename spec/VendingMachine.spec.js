@@ -10,7 +10,7 @@ describe("VendingMachine", () => {
 
   beforeEach(() => {
     inventory = new Inventory();
-    coins = new Coins()
+    coins = new Coins();
     vendingMachine = new VendingMachine(inventory, coins);
   });
 
@@ -233,7 +233,7 @@ describe("VendingMachine", () => {
   it("coinCointer check for enough change", () => {
     // set up
     const expected = 120;
-    const expectedTwo = true;
+    const expectedTwo = false;
 
     vendingMachine.coins.addTenP(20);
 
@@ -247,10 +247,73 @@ describe("VendingMachine", () => {
 
     //execute
     const result = vendingMachine.coins.coinCount();
-    const resultTwo = vendingMachine.coinCounterChecker()
+    const resultTwo = vendingMachine.coinCounterChecker();
 
     //verify
     expect(result).toEqual(expected);
+    expect(resultTwo).toEqual(expectedTwo);
+  });
+
+  it("coinCointer check - not enough change", () => {
+    // set up
+    const expected = 4.5;
+    const expectedTwo = true;
+
+    vendingMachine.coins.addTenP(5);
+    vendingMachine.coins.addTwoPound(2);
+
+    //execute
+    const result = vendingMachine.coins.coinCount();
+    const resultTwo = vendingMachine.coinCounterChecker();
+
+    //verify
+    expect(result).toEqual(expected);
+    expect(resultTwo).toEqual(expectedTwo);
+  });
+
+  it("Money counter - give back change - and adding money to the coinCounter", () => {
+    // set up
+    const expectedOne = `ThankYou, Please Wait For Your £1.00 Change`;
+    const expectedTwo = 123;
+
+    //execute
+    vendingMachine.inventory.addItem(104, "food", "Sweets", 1.5);
+    vendingMachine.inventory.addItem(205, "drink", "Tango", 1.5);
+    vendingMachine.inventory.addItem(204, "food", "Biscuits", 2.5);
+    vendingMachine.orderItem(104);
+    vendingMachine.orderItem(205);
+    vendingMachine.totalCost();
+    vendingMachine.orderConfirmation("yes");
+    vendingMachine.coins.addTenP(20);
+    vendingMachine.coins.addTwentyP(40);
+    vendingMachine.coins.addFiftyP(20);
+    vendingMachine.coins.addOnePound(50);
+    vendingMachine.coins.addTwoPound(25);
+    vendingMachine.moneyCounter(2.0);
+    const resultOne = vendingMachine.moneyCounter(2.0);
+    const resultTwo = vendingMachine.coins.coinCount();
+
+    //verify
+    expect(resultOne).toEqual(expectedOne);
+    expect(resultTwo).toEqual(expectedTwo);
+  });
+
+  it("Vending machine out of order - not enought change", () => {
+    // set up
+    const expected = 3;
+    const expectedOne = true;
+    const expectedTwo = "OUT OF ORDER";
+
+    //execute
+    vendingMachine.coins.addTenP(20);
+    vendingMachine.coins.addOnePound(1);
+    const result = vendingMachine.coins.coinCount();
+    const resultOne = vendingMachine.coinCounterChecker();
+    const resultTwo = vendingMachine.orderItem();
+
+    //verify
+    expect(result).toEqual(expected);
+    expect(resultOne).toEqual(expectedOne);
     expect(resultTwo).toEqual(expectedTwo);
   });
 });

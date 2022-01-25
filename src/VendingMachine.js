@@ -4,7 +4,6 @@ const Coins = require("./coins.js");
 class VendingMachine {
   constructor(inventory, coins) {
     this.status = "Select Item";
-    this.coinCounterStatus = true;
     this.inventory = inventory;
     this.coins = coins;
     this.basket = [];
@@ -37,6 +36,7 @@ class VendingMachine {
       }
       return "ITEM NOT FOUND";
     }
+    return "OUT OF ORDER";
   }
 
   totalCost() {
@@ -72,10 +72,13 @@ class VendingMachine {
       return `Amount due £${this.amountDue.toFixed(2)}`;
     }
     if (this.amountDue === 0) {
+      this.coins.coinCounter = this.coins.coinCounter + this.insertedMoney;
       this.releaseItems = "yes";
       return `ThankYou`;
     }
     if (this.amountDue < 0) {
+      this.coins.coinCounter =
+        this.coins.coinCounter + this.insertedMoney + this.amountDue;
       this.releaseItems = "yes";
       return `ThankYou, Please Wait For Your £${Math.abs(
         this.amountDue
@@ -84,20 +87,20 @@ class VendingMachine {
   }
 
   cancelOrder(orderStatus) {
-    if(orderStatus === "cancel") {
-      return `Ordered Cancelled, Collect Your £${this.insertedMoney.toFixed(2)} Change`
+    if (orderStatus === "cancel") {
+      return `Ordered Cancelled, Collect Your £${this.insertedMoney.toFixed(
+        2
+      )} Change`;
     }
   }
 
-  coinCounterChecker () {
-    console.log(this.coinCounter)
-    if (this.coinCounter > 10) {
-        this.coinCounterStatus = true 
-        return this.coinCounterStatus
+  coinCounterChecker() {
+    if (this.coins.coinCounter > 10) {
+      return (this.coins.coinCounterStatus = false);
     }
-    this.coinCounterStatus = false
-    return this.coinCounterStatus
-}
+    this.status = "NO MORE CHANGE";
+    return (this.coins.coinCounterStatus = true);
+  }
 }
 
 module.exports = VendingMachine;

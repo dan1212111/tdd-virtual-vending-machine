@@ -2,7 +2,8 @@ class Coins {
 
     constructor() {
         this.coinCounter = 0
-    }
+        this.coinCounterStatus = false
+    } 
 
     addTenP (tenP) {
         const totalCoin = tenP * 0.10 
