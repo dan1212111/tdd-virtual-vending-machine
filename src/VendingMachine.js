@@ -1,70 +1,103 @@
-const Inventory = require("./Inventory");
-const MachineOperations = require("./MachineOperations");
+const Inventory = require("./inventory.js");
+const Coins = require("./coins.js");
 
 class VendingMachine {
-  constructor() {
+  constructor(inventory, coins) {
+    this.status = "Select Item";
+    this.coinCounterStatus = true;
+    this.inventory = inventory;
+    this.coins = coins;
     this.basket = [];
-  }
-
-  lookupInventory() {
-    return Inventory;
-  }
-
-  lookupInventoryPrices() {
-    const prices = [];
-    for (let i = 0; i < Inventory.length; i++) {
-      prices.push(Inventory[i].price);
-    }
-    return prices;
+    this.totalPrice = 0;
+    this.confirmationAnswer = "no";
+    this.coinSLot = "no";
+    this.amountDue = 0;
+    this.insertedMoney = 0;
+    this.releaseItems = "no";
   }
 
   vendingMachineStatus() {
-    return "Select Item";
-  }
-
-  orderItem(id) {
-    for (let i = 0; i < Inventory.length; i++) {
-      const inventoryItems = Inventory[i];
-      if (inventoryItems.id === id) {
-        this.basket.push(inventoryItems.id);
-        return inventoryItems.id;
-      }
-    }
-    return "ITEM NOT FOUND";
+    return this.status;
   }
 
   basketOrder() {
     return this.basket;
   }
 
-  totalCost() {
-    let prices = 0;
-    for (let i = 0; i < Inventory.length; i++) {
-      const inventoryItems = Inventory[i];
-      for (let i = 0; i < this.basket.length; i++) {
-        if (inventoryItems.id === this.basket[i]) {
-          prices = prices + inventoryItems.price;
+  orderItem(id) {
+    if (this.status === "Select Item") {
+      for (let i = 0; i < this.inventory.inventory.length; i++) {
+        const inventory = this.inventory.inventory[i];
+        if (inventory.id === id) {
+          const item = inventory;
+          this.inventory.inventory.splice(i, 1);
+          this.basket.push(item);
+          return item;
         }
       }
+      return "ITEM NOT FOUND";
     }
-    return "Amount due £" + prices.toFixed(2) + ", please confirm your order";
   }
 
+  totalCost() {
+    let totalCost = 0;
+    for (let i = 0; i < this.basket.length; i++) {
+      totalCost = totalCost + this.basket[i].price;
+    }
+    this.totalPrice = totalCost;
+    return `Amount due £${totalCost.toFixed(2)}, please confirm your order`;
+  }
 
-  
+  orderConfirmation(answer) {
+    if (answer === "yes") {
+      this.confirmationAnswer = "yes";
+      return `Order confirmed, please insert £` + this.totalPrice.toFixed(2);
+    }
+    this.basket.splice(0, this.basket.length);
+    return `Order Cancelled`;
+  }
 
-//   moneyCounter(insertedMoney) {
-//       const moneyLeft = 0
-//       const amountDue = this.totalCost2()
-//       if(insertedMoney < amountDue) {
-//           const moneyLeft = amountDue - insertedMoney
-//           if (moneyLeft < amountDue) {
-//               const moneyLeft = moneyLeft - insertedMoney
-//           }
-//       }
-//   }
+  coinSlot() {
+    if (this.confirmationAnswer === "yes") {
+      this.coinSLot = "yes";
+      return true;
+    }
+    return false;
+  }
 
+  moneyCounter(insertedMoney) {
+    this.insertedMoney = insertedMoney + this.insertedMoney;
+    this.amountDue = this.totalPrice - this.insertedMoney;
+    if (this.amountDue > 0) {
+      return `Amount due £${this.amountDue.toFixed(2)}`;
+    }
+    if (this.amountDue === 0) {
+      this.releaseItems = "yes";
+      return `ThankYou`;
+    }
+    if (this.amountDue < 0) {
+      this.releaseItems = "yes";
+      return `ThankYou, Please Wait For Your £${Math.abs(
+        this.amountDue
+      ).toFixed(2)} Change`;
+    }
+  }
 
+  cancelOrder(orderStatus) {
+    if(orderStatus === "cancel") {
+      return `Ordered Cancelled, Collect Your £${this.insertedMoney.toFixed(2)} Change`
+    }
+  }
+
+  coinCounterChecker () {
+    console.log(this.coinCounter)
+    if (this.coinCounter > 10) {
+        this.coinCounterStatus = true 
+        return this.coinCounterStatus
+    }
+    this.coinCounterStatus = false
+    return this.coinCounterStatus
+}
 }
 
 module.exports = VendingMachine;

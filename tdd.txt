@@ -25,8 +25,17 @@ Part 7
 / add a only accept coins if order is confirmed option - DONE 
 
 Part 8 
-/ add and if money added does not match money due, add a promt 
-/ add money back if money put in machine is more then money due 
+/ add and if money added does not match money due, add a promt - DONE 
+/ add money back if money put in machine is more then money due - DONE
+
+Part 9
+/ when paid in full release item - DONE
+/ being able to cancel order mid payment and retrieve money - DONE
+
+Part 10
+/ Being able to provide vending machine with change - DONE
+/ If coinCounter is below £10 - stop accepting orders 
+/ Being able to add the change into the coinCounter
 
 
 extra  = same item ?
