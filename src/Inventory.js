@@ -1,32 +1,32 @@
-const Item = require("./item.js");
+const Item = require('./item.js')
 
 class Inventory {
-  constructor() {
-    this.inventory = [];
+  constructor () {
+    this.inventory = []
   }
 
-  addItem(id, type, brand, price) {
-    const item = new Item(id, type, brand, price);
+  addItem (id, type, brand, price) {
+    const item = new Item(id, type, brand, price)
     this.inventory.push(item)
-    return item;
+    return item
   }
 
-  lookUpInventory(id) {
+  lookUpInventory (id) {
     for (let i = 0; i < this.inventory.length; i++) {
       if (this.inventory[i].id === id) {
-        const item = this.inventory[i];
-        return item;
+        const item = this.inventory[i]
+        return item
       }
     }
   }
 
-  lookUpInventoryPrices() {
-    const prices = [];
+  lookUpInventoryPrices () {
+    const prices = []
     for (let i = 0; i < this.inventory.length; i++) {
-      prices.push(this.inventory[i].price);
+      prices.push(this.inventory[i].price)
     }
-    return prices;
+    return prices
   }
 }
 
-module.exports = Inventory;
+module.exports = Inventory
